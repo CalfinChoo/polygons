@@ -20,7 +20,6 @@ def add_box( polygons, x, y, z, width, height, depth ):
     x1 = x + width
     y1 = y - height
     z1 = z - depth
-
     #front
     add_polygon(polygons, x, y, z, x, y1, z, x1, y, z)
     add_polygon(polygons, x, y1, z, x1, y1, z, x1, y, z)
@@ -39,6 +38,7 @@ def add_box( polygons, x, y, z, width, height, depth ):
     add_polygon(polygons, x, y1, z, x1, y1, z, x, y1, z1)
     add_polygon(polygons, x1, y1, z, x1, y1, z1, x, y1, z1)
 
+
 def add_sphere(polygons, cx, cy, cz, r, steps ):
     points = generate_sphere(cx, cy, cz, r, steps)
 
@@ -53,59 +53,50 @@ def add_sphere(polygons, cx, cy, cz, r, steps ):
         for longt in range(longt_start, longt_stop+1):
             index = lat * steps + longt
             if (index % steps == 0):
-                if (index+steps < len(points)): third = index+steps
-                else: third = (index+steps)%steps
+                if (index+steps+1 < len(points)): t = index+steps+1
+                else: t = (index+steps+1)%steps
                 add_polygon(polygons, points[index][0],
                             points[index][1],
                             points[index][2],
                             points[index+1][0],
                             points[index+1][1],
                             points[index+1][2],
-                            points[third][0],
-                            points[third][1],
-                            points[third][2])
+                            points[t][0],
+                            points[t][1],
+                            points[t][2])
             elif (index % steps == steps-1):
-                if (index+steps-1 < len(points)): second = index+steps
-                else: second = (index+steps)%steps
+                if (index+steps < len(points)): t = index+steps
+                else: t = (index+steps-1)%steps
                 add_polygon(polygons, points[index][0],
                             points[index][1],
                             points[index][2],
-                            points[second][0],
-                            points[second][1],
-                            points[second][2],
+                            points[t][0],
+                            points[t][1],
+                            points[t][2],
                             points[index-1][0],
                             points[index-1][1],
                             points[index-1][2])
             else:
-                if (index+steps-1 < len(points)): second = index+steps-1
-                else: second = (index+steps-1)%steps
-                if (index+steps < len(points)): third = index+steps
-                else: third = (index+steps)%steps
+                if (index+steps+1 < len(points)): t = index+steps+1
+                else: t = (index+steps+1)%steps
                 add_polygon(polygons, points[index][0],
                             points[index][1],
                             points[index][2],
                             points[index+1][0],
                             points[index+1][1],
                             points[index+1][2],
-                            points[third][0],
-                            points[third][1],
-                            points[third][2])
+                            points[t][0],
+                            points[t][1],
+                            points[t][2])
                 add_polygon(polygons, points[index][0],
                             points[index][1],
                             points[index][2],
-                            points[second][0],
-                            points[second][1],
-                            points[second][2],
-                            points[index-1][0],
-                            points[index-1][1],
-                            points[index-1][2])
-
-            # add_edge(polygons, points[index][0],
-            #          points[index][1],
-            #          points[index][2],
-            #          points[index][0]+1,
-            #          points[index][1]+1,
-            #          points[index][2]+1 )
+                            points[t][0],
+                            points[t][1],
+                            points[t][2],
+                            points[t-1][0],
+                            points[t-1][1],
+                            points[t-1][2])
 
 def generate_sphere( cx, cy, cz, r, steps ):
     points = []
