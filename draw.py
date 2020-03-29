@@ -50,7 +50,7 @@ def add_sphere(polygons, cx, cy, cz, r, steps ):
     steps+= 1
 
     for lat in range(lat_start, lat_stop):
-        for longt in range(longt_start, longt_stop+1):
+        for longt in range(longt_start, longt_stop):
             index = lat * steps + longt
             if (index % steps == 0):
                 if (index+steps+1 < len(points)): t = index+steps+1
@@ -130,13 +130,31 @@ def add_torus(polygons, cx, cy, cz, r0, r1, steps ):
     for lat in range(lat_start, lat_stop):
         for longt in range(longt_start, longt_stop):
             index = lat * steps + longt
+            if longt == longt_stop - 1:
+                t = index-longt+steps
+            else:
+                t = index+steps+1
+            add_polygon(polygons,
+                        points[index][0],
+                        points[index][1],
+                        points[index][2],
+                        points[(index+steps) % len(points)][0],
+                        points[(index+steps) % len(points)][1],
+                        points[(index+steps) % len(points)][2],
+                        points[t % len(points)][0],
+                        points[t % len(points)][1],
+                        points[t % len(points)][2])
+            add_polygon(polygons,
+                        points[index][0],
+                        points[index][1],
+                        points[index][2],
+                        points[t % len(points)][0],
+                        points[t % len(points)][1],
+                        points[t % len(points)][2],
+                        points[(t - steps) % len(points)][0],
+                        points[(t - steps) % len(points)][1],
+                        points[(t - steps) % len(points)][2])
 
-            add_edge(polygons, points[index][0],
-                     points[index][1],
-                     points[index][2],
-                     points[index][0]+1,
-                     points[index][1]+1,
-                     points[index][2]+1 )
 
 def generate_torus( cx, cy, cz, r0, r1, steps ):
     points = []
