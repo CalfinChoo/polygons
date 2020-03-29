@@ -1,0 +1,45 @@
+box
+100 350 300 50 250 200
+torus
+245 130 250 15 80
+torus
+245 110 250 5 75
+torus
+245 105 250 5 75
+torus
+245 100 250 5 70
+torus
+245 95 250 5 70
+torus
+245 90 250 5 65
+torus
+245 85 250 5 65
+torus
+245 80 250 5 60
+torus
+245 80 250 5 60
+torus
+245 75 250 5 55
+torus
+245 70 250 5 55
+torus
+245 65 250 5 50
+torus
+245 60 250 5 50
+torus
+245 55 250 5 45
+torus
+245 50 250 5 40
+sphere
+400 300 250 60
+ident
+move
+0 0 -200
+rotate
+x 5
+rotate
+y -10
+apply
+display
+save
+img.png
