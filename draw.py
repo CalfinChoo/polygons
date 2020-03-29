@@ -9,10 +9,13 @@ def add_polygon( polygons, x0, y0, z0, x1, y1, z1, x2, y2, z2 ):
 
 def draw_polygons( polygons, screen, color ):
     i = 0
+    v = [0, 0, 1]
     while (i < len(polygons)):
-        draw_line(int(polygons[i][0]), int(polygons[i][1]), int(polygons[i+1][0]), int(polygons[i+1][1]), screen, color)
-        draw_line(int(polygons[i+1][0]), int(polygons[i+1][1]), int(polygons[i+2][0]), int(polygons[i+2][1]), screen, color)
-        draw_line(int(polygons[i+2][0]), int(polygons[i+2][1]), int(polygons[i][0]), int(polygons[i][1]), screen, color)
+        n = calculate_normal(polygons, i)
+        if (dot_product(n, v) > 0):
+            draw_line(int(polygons[i][0]), int(polygons[i][1]), int(polygons[i+1][0]), int(polygons[i+1][1]), screen, color)
+            draw_line(int(polygons[i+1][0]), int(polygons[i+1][1]), int(polygons[i+2][0]), int(polygons[i+2][1]), screen, color)
+            draw_line(int(polygons[i+2][0]), int(polygons[i+2][1]), int(polygons[i][0]), int(polygons[i][1]), screen, color)
         i += 3
 
 
@@ -23,20 +26,21 @@ def add_box( polygons, x, y, z, width, height, depth ):
     #front
     add_polygon(polygons, x, y, z, x, y1, z, x1, y, z)
     add_polygon(polygons, x, y1, z, x1, y1, z, x1, y, z)
-
     #back
-    add_polygon(polygons, x, y, z1, x, y1, z1, x1, y, z1)
-    add_polygon(polygons, x, y1, z1, x1, y1, z1, x1, y, z1)
-
-    #sides
-    add_polygon(polygons, x, y1, z1, x, y1, z, x, y, z1)
-    add_polygon(polygons, x, y1, z, x, y, z, x, y, z1)
-    add_polygon(polygons, x1, y1, z1, x1, y1, z, x1, y, z1)
-    add_polygon(polygons, x1, y1, z, x1, y, z, x1, y, z1)
-    add_polygon(polygons, x, y, z, x1, y, z, x, y, z1)
-    add_polygon(polygons, x1, y, z, x1, y, z1, x, y, z1)
-    add_polygon(polygons, x, y1, z, x1, y1, z, x, y1, z1)
-    add_polygon(polygons, x1, y1, z, x1, y1, z1, x, y1, z1)
+    add_polygon(polygons, x, y, z1, x1, y, z1, x, y1, z1)
+    add_polygon(polygons, x, y1, z1, x1, y, z1, x1, y1, z1)
+    #left
+    add_polygon(polygons, x, y, z1, x, y1, z1, x, y1, z)
+    add_polygon(polygons, x, y, z1, x, y1 , z, x, y, z)
+    #right
+    add_polygon(polygons, x1, y, z, x1, y1, z, x1, y, z1)
+    add_polygon(polygons, x1, y, z1, x1, y1, z, x1, y1, z1)
+    #top
+    add_polygon(polygons, x, y, z1, x, y, z, x1, y, z1)
+    add_polygon(polygons, x, y, z, x1, y, z, x1, y, z1)
+    #bottom
+    add_polygon(polygons, x1, y1, z1, x1, y1, z, x, y1, z)
+    add_polygon(polygons, x, y1, z, x, y1, z1, x1, y1, z1)
 
 
 def add_sphere(polygons, cx, cy, cz, r, steps ):
